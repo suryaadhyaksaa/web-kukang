@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import { Orbitron, Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
-import LoadingScreen from "@/components/LoadingScreen"; // Impor LoadingScreen
+import LoadingScreen from "@/components/LoadingScreen";
+import FloatingLogo from "@/components/FloatingLogo";
 
 // 1. Font Orbitron untuk Heading/Judul
 const orbitron = Orbitron({
@@ -18,6 +19,11 @@ const jakarta = Plus_Jakarta_Sans({
 export const metadata: Metadata = {
   title: "Kukang EV - ITERA",
   description: "Inovasi Kendaraan Listrik ITERA",
+  icons: {
+    icon: "/logo.png",
+    shortcut: "/logo.png",
+    apple: "/logo.png",
+  },
 };
 
 export default function RootLayout({
@@ -31,6 +37,7 @@ export default function RootLayout({
       <body className="font-sans antialiased bg-[#060911] text-gray-100">
         <LoadingScreen />
         {children}
+        <FloatingLogo />
       </body>
     </html>
   );
