@@ -1,0 +1,127 @@
+@import "tailwindcss";
+
+/* Menghubungkan font variable Next.js */
+
+.font-orbitron {
+    font-family: var(--font-orbitron), sans-serif;
+}
+
+.font-sora {
+    font-family: var(--font-sora), sans-serif;
+}
+
+.font-space-grotesk {
+    font-family: var(--font-space-grotesk), sans-serif;
+}
+
+.font-inter {
+    font-family: var(--font-inter), sans-serif;
+}
+
+
+/* Base Styling */
+
+@layer base {
+    html,
+    body {
+        background-color: #070a12;
+        color: #f1f5f9;
+        font-family: var(--font-inter), system-ui, -apple-system, sans-serif;
+        -webkit-tap-highlight-color: transparent;
+        touch-action: manipulation;
+    }
+}
+
+
+/* ========================================================= */
+
+
+/* 1. DESKTOP MODE (HD, Cinematic Effects, Heavy Shadows)    */
+
+
+/* ========================================================= */
+
+@media (pointer: fine) and (min-width: 769px) {
+    /* Efek Blur & Glassmorphism HD khusus Desktop */
+    .hd-glass {
+        -webkit-backdrop-filter: blur(16px);
+        backdrop-filter: blur(16px);
+    }
+    /* Bayangan HD mendalam untuk GPU Desktop */
+    .hd-shadow {
+        box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.7), 0 0 20px 0 rgba(245, 158, 11, 0.15);
+    }
+    /* Transisi Hover Mulus khusus Mouse */
+    .hd-hover-card {
+        transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+    .hd-hover-card:hover {
+        transform: translateY(-6px) scale(1.01);
+        border-color: rgba(245, 158, 11, 0.6) !important;
+        box-shadow: 0 25px 50px -12px rgba(245, 158, 11, 0.25) !important;
+    }
+    /* Pencahayaan Ambient Glow HD */
+    .hd-ambient-glow {
+        display: block;
+        filter: blur(120px);
+        opacity: 0.25;
+    }
+}
+
+
+/* ========================================================= */
+
+
+/* 2. MOBILE MODE (Android/iOS Light, Ultra-Smooth & Flat)   */
+
+
+/* ========================================================= */
+
+@media (pointer: coarse),
+(max-width: 768px) {
+    /* Nonaktifkan backdrop-blur berat agar RAM/GPU HP hemat */
+    .hd-glass {
+        -webkit-backdrop-filter: none !important;
+        backdrop-filter: none !important;
+        background-color: rgba(15, 23, 42, 0.95) !important;
+        /* Warna padat transparan ringan */
+    }
+    /* Sederhanakan bayangan agar scroll tidak blank/lag */
+    .hd-shadow,
+    .shadow-xl,
+    .shadow-2xl,
+    .shadow-lg {
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4) !important;
+    }
+    /* Hilangkan animasi transform melayang yang berat saat scroll di HP */
+    .hd-hover-card {
+        transition: background-color 0.15s ease, border-color 0.15s ease;
+    }
+    .hd-hover-card:hover {
+        transform: none !important;
+    }
+    /* Sembunyikan pencahayaan blur berat di HP */
+    .hd-ambient-glow {
+        display: none !important;
+    }
+    /* Mencegah glitch rendering layer saat scroll cepat */
+    .paint-stable {
+        contain: layout style;
+    }
+}
+
+
+/* Marquee Running Text Animation */
+
+@keyframes marquee {
+    0% {
+        transform: translateX(0%);
+    }
+    100% {
+        transform: translateX(-100%);
+    }
+}
+
+.animate-marquee {
+    animation: marquee 28s linear infinite;
+}
