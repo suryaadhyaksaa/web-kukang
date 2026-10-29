@@ -20,9 +20,9 @@ export const metadata: Metadata = {
   title: "Kukang EV - ITERA",
   description: "Inovasi Kendaraan Listrik ITERA",
   icons: {
-    icon: "/logo.png",
-    shortcut: "/logo.png",
-    apple: "/logo.png",
+    icon: "app/icon.png",
+    shortcut: "app/icon.png",
+    apple: "app/icon.png",
   },
 };
 
