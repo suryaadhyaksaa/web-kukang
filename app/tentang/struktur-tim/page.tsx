@@ -218,8 +218,8 @@ function MemberCard({ role, titleBadge, name, major, image, icon: Icon, highligh
   return (
     <div
       onClick={onClick}
-      className={`group relative rounded-2xl border transition-all duration-300 flex flex-col items-center text-center cursor-pointer select-none active:scale-[0.98] w-full max-w-full ${
-        isStaff ? 'p-2.5 sm:p-4 bg-white/70 backdrop-blur-md border-slate-200/80 shadow-sm hover:shadow-md hover:border-amber-400' : 'p-3.5 sm:p-5'
+      className={`group relative rounded-2xl border transition-all duration-300 flex flex-col items-center text-center cursor-pointer select-none active:scale-[0.98] w-full min-w-0 ${
+        isStaff ? 'p-3 bg-white/70 backdrop-blur-md border-slate-200/80 shadow-sm hover:shadow-md hover:border-amber-400' : 'p-4'
       } ${
         highlight
           ? 'bg-gradient-to-b from-amber-500/10 via-white/80 to-slate-50/90 border-amber-400 shadow-lg shadow-amber-500/10 hover:shadow-amber-500/20'
@@ -232,14 +232,17 @@ function MemberCard({ role, titleBadge, name, major, image, icon: Icon, highligh
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-24 sm:w-36 h-1 bg-gradient-to-r from-amber-500 via-orange-500 to-red-500 rounded-full" />
       )}
 
-      {/* Title Badge dibuat rounded-lg agar jika membungkus 2 baris tidak lonjong aneh */}
+      {/* Wadah Badge Anggota: Selalu Punya Wadah Khusus di Atas & Rata Tengah */}
       {titleBadge && (
-        <span className="text-[9px] sm:text-[10px] font-orbitron font-bold text-amber-800 bg-amber-100/90 border border-amber-300/80 px-2 sm:px-3 py-1 rounded-lg uppercase tracking-wider mb-2.5 inline-flex items-center justify-center gap-1 max-w-full text-center leading-tight shadow-sm">
-          {Icon && <Icon className="w-3 h-3 text-amber-600 shrink-0" />}
-          <span className="whitespace-normal break-words">{titleBadge}</span>
-        </span>
+        <div className="w-full flex justify-center items-center mb-2.5 px-1">
+          <span className="inline-flex items-center justify-center gap-1 text-[9px] sm:text-[10px] font-orbitron font-bold text-amber-800 bg-amber-100/90 border border-amber-300/80 px-2.5 py-1 rounded-lg uppercase tracking-wider text-center leading-tight shadow-sm max-w-full break-words [overflow-wrap:anywhere]">
+            {Icon && <Icon className="w-3 h-3 text-amber-600 shrink-0" />}
+            <span>{titleBadge}</span>
+          </span>
+        </div>
       )}
 
+      {/* Foto Profil */}
       <div
         className={`relative overflow-hidden border border-slate-200 bg-slate-100 flex items-center justify-center shrink-0 rounded-xl shadow-inner ${
           isStaff ? 'w-16 h-20 sm:w-20 sm:h-24 mb-2' : 'w-24 h-32 sm:w-28 sm:h-36 mb-3'
@@ -261,7 +264,6 @@ function MemberCard({ role, titleBadge, name, major, image, icon: Icon, highligh
           </div>
         )}
 
-        {/* Hover overlay HD Preview */}
         <div className="absolute inset-0 bg-slate-900/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center backdrop-blur-[2px]">
           <span className="text-[8px] sm:text-[9px] font-orbitron font-bold text-white bg-slate-900/90 border border-amber-400/80 px-2 py-0.5 rounded-full flex items-center gap-1 shadow-md">
             <ZoomIn className="w-3 h-3 text-amber-400" /> PREVIEW
@@ -269,22 +271,21 @@ function MemberCard({ role, titleBadge, name, major, image, icon: Icon, highligh
         </div>
       </div>
 
-      <div className="space-y-0.5 sm:space-y-1 w-full flex flex-col items-center min-w-0">
-        <h3 className={`font-orbitron font-bold text-slate-900 leading-snug break-words w-full ${
+      {/* Informasi Nama & Jabatan */}
+      <div className="space-y-1 w-full flex flex-col items-center justify-center text-center min-w-0">
+        <h3 className={`font-orbitron font-bold text-slate-900 leading-snug text-center break-words [overflow-wrap:anywhere] w-full ${
           isStaff ? 'text-[11px] sm:text-sm line-clamp-2' : 'text-xs sm:text-base line-clamp-2'
         }`}>
           {name}
         </h3>
         
-        {/* Jabatan */}
-        <p className={`font-orbitron font-medium tracking-wide leading-tight whitespace-normal break-words w-full ${
+        <p className={`font-orbitron font-medium tracking-wide leading-tight text-center break-words [overflow-wrap:anywhere] w-full ${
           isStaff ? 'text-[9px] sm:text-[10px] text-amber-700/90' : 'text-[11px] sm:text-xs text-amber-700'
         }`}>
           {role}
         </p>
 
-        {/* Major / Program Studi */}
-        <p className="text-[9px] sm:text-[11px] text-slate-500 font-sans pt-0.5 leading-tight whitespace-normal break-words w-full">
+        <p className="text-[9px] sm:text-[11px] text-slate-500 font-sans pt-0.5 leading-tight text-center break-words [overflow-wrap:anywhere] w-full">
           {major}
         </p>
       </div>
@@ -396,13 +397,13 @@ export default function StructurePage() {
   }, []);
 
   const technicalCount = useMemo(() => {
-    let count = 1; // Head Tech
+    let count = 1;
     TECHNICAL_DIVISIONS.forEach((d) => { count += 1 + d.members.length; });
     return count;
   }, []);
 
   const nonTechnicalCount = useMemo(() => {
-    let count = 1; // Head Non-Tech
+    let count = 1;
     NON_TECHNICAL_DIVISIONS.forEach((d) => { count += 1 + d.members.length; });
     return count;
   }, []);
@@ -420,7 +421,7 @@ export default function StructurePage() {
   return (
     <div className="relative min-h-screen bg-slate-50 text-slate-800 font-sans overflow-x-hidden selection:bg-amber-200">
       
-      {/* ================= BACKGROUND LOGO WATERMARK & GLOW EFFECT ================= */}
+      {/* Background Glow */}
       <div className="fixed inset-0 pointer-events-none z-0 flex items-center justify-center overflow-hidden">
         <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[350px] sm:w-[800px] h-[350px] sm:h-[800px] bg-gradient-to-tr from-amber-200/40 via-orange-100/30 to-red-100/20 rounded-full blur-3xl opacity-70" />
         
@@ -449,7 +450,6 @@ export default function StructurePage() {
             Sinergi <span className="font-bold text-slate-800">{totalCount} Anggota</span> & Mahasiswa lintas disiplin Institut Teknologi Sumatera dalam riset mobil listrik masa depan.
           </p>
 
-          {/* Ringkasan Statistik Interaktif */}
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-4 w-full max-w-2xl pt-2">
             {[
               { label: 'Total Anggota', count: totalCount, icon: Users, color: 'text-amber-600' },
@@ -572,27 +572,32 @@ export default function StructurePage() {
               const isCollapsed = collapsedDivisions[div.subDivisionName];
 
               return (
-                <div key={idx} className="bg-white/80 backdrop-blur-xl border border-slate-200/90 rounded-2xl sm:rounded-3xl p-3.5 sm:p-7 space-y-4 sm:space-y-5 shadow-lg shadow-slate-200/40">
-                  {/* Header Divisi - Diperbaiki agar teks judul tidak terpotong & tidak offscreen */}
-                  <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between border-b border-slate-200/80 pb-3 gap-2">
-                    <div className="flex items-center gap-2 text-slate-900 font-orbitron font-bold text-xs sm:text-base min-w-0 flex-1">
-                      <div className="p-1.5 rounded-lg bg-amber-100 text-amber-700 shrink-0">
+                <div key={idx} className="bg-white/80 backdrop-blur-xl border border-slate-200/90 rounded-2xl sm:rounded-3xl p-3.5 sm:p-7 space-y-4 sm:space-y-5 shadow-lg shadow-slate-200/40 w-full min-w-0 overflow-hidden">
+                  
+                  {/* Header Divisi: Rapi & Akses Mulus di Mobile / Desktop */}
+                  <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between border-b border-slate-200/80 pb-3 gap-2.5 w-full min-w-0">
+                    <div className="flex items-start sm:items-center gap-2 text-slate-900 font-orbitron font-bold text-xs sm:text-base min-w-0 w-full sm:w-auto">
+                      <div className="p-1.5 rounded-lg bg-amber-100 text-amber-700 shrink-0 mt-0.5 sm:mt-0">
                         <DivIcon className="w-4 h-4" />
                       </div>
-                      <span className="whitespace-normal break-words leading-snug">{div.subDivisionName}</span>
+                      <span className="whitespace-normal break-words [overflow-wrap:anywhere] leading-snug flex-1 min-w-0">
+                        {div.subDivisionName}
+                      </span>
                     </div>
 
-                    <button
-                      type="button"
-                      onClick={() => toggleDivision(div.subDivisionName)}
-                      className="self-end sm:self-auto text-[9px] sm:text-xs font-orbitron text-slate-600 hover:text-amber-700 flex items-center gap-1 bg-slate-100 px-2.5 py-1 rounded-lg border border-slate-200 transition-colors cursor-pointer shrink-0"
-                    >
-                      {isCollapsed ? (
-                        <>TAMPILKAN <ChevronDown className="w-3.5 h-3.5" /></>
-                      ) : (
-                        <>SEMBUNYIKAN <ChevronUp className="w-3.5 h-3.5" /></>
-                      )}
-                    </button>
+                    <div className="flex justify-end w-full sm:w-auto shrink-0 pt-1 sm:pt-0">
+                      <button
+                        type="button"
+                        onClick={() => toggleDivision(div.subDivisionName)}
+                        className="text-[10px] sm:text-xs font-orbitron font-bold text-slate-700 hover:text-amber-700 flex items-center justify-center gap-1.5 bg-slate-100 hover:bg-amber-50 px-3 py-1.5 rounded-xl border border-slate-200 hover:border-amber-300 transition-all cursor-pointer shadow-xs"
+                      >
+                        {isCollapsed ? (
+                          <>TAMPILKAN <ChevronDown className="w-3.5 h-3.5 text-amber-600" /></>
+                        ) : (
+                          <>SEMBUNYIKAN <ChevronUp className="w-3.5 h-3.5 text-amber-600" /></>
+                        )}
+                      </button>
+                    </div>
                   </div>
 
                   <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 sm:gap-6 items-start">
@@ -642,27 +647,32 @@ export default function StructurePage() {
               const isCollapsed = collapsedDivisions[div.subDivisionName];
 
               return (
-                <div key={idx} className="bg-white/80 backdrop-blur-xl border border-slate-200/90 rounded-2xl sm:rounded-3xl p-3.5 sm:p-7 space-y-4 sm:space-y-5 shadow-lg shadow-slate-200/40">
-                  {/* Header Divisi - Diperbaiki agar teks judul tidak terpotong & tidak offscreen */}
-                  <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between border-b border-slate-200/80 pb-3 gap-2">
-                    <div className="flex items-center gap-2 text-slate-900 font-orbitron font-bold text-xs sm:text-base min-w-0 flex-1">
-                      <div className="p-1.5 rounded-lg bg-orange-100 text-orange-700 shrink-0">
+                <div key={idx} className="bg-white/80 backdrop-blur-xl border border-slate-200/90 rounded-2xl sm:rounded-3xl p-3.5 sm:p-7 space-y-4 sm:space-y-5 shadow-lg shadow-slate-200/40 w-full min-w-0 overflow-hidden">
+                  
+                  {/* Header Divisi: Rapi & Akses Mulus di Mobile / Desktop */}
+                  <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between border-b border-slate-200/80 pb-3 gap-2.5 w-full min-w-0">
+                    <div className="flex items-start sm:items-center gap-2 text-slate-900 font-orbitron font-bold text-xs sm:text-base min-w-0 w-full sm:w-auto">
+                      <div className="p-1.5 rounded-lg bg-orange-100 text-orange-700 shrink-0 mt-0.5 sm:mt-0">
                         <DivIcon className="w-4 h-4" />
                       </div>
-                      <span className="whitespace-normal break-words leading-snug">{div.subDivisionName}</span>
+                      <span className="whitespace-normal break-words [overflow-wrap:anywhere] leading-snug flex-1 min-w-0">
+                        {div.subDivisionName}
+                      </span>
                     </div>
 
-                    <button
-                      type="button"
-                      onClick={() => toggleDivision(div.subDivisionName)}
-                      className="self-end sm:self-auto text-[9px] sm:text-xs font-orbitron text-slate-600 hover:text-amber-700 flex items-center gap-1 bg-slate-100 px-2.5 py-1 rounded-lg border border-slate-200 transition-colors cursor-pointer shrink-0"
-                    >
-                      {isCollapsed ? (
-                        <>TAMPILKAN <ChevronDown className="w-3.5 h-3.5" /></>
-                      ) : (
-                        <>SEMBUNYIKAN <ChevronUp className="w-3.5 h-3.5" /></>
-                      )}
-                    </button>
+                    <div className="flex justify-end w-full sm:w-auto shrink-0 pt-1 sm:pt-0">
+                      <button
+                        type="button"
+                        onClick={() => toggleDivision(div.subDivisionName)}
+                        className="text-[10px] sm:text-xs font-orbitron font-bold text-slate-700 hover:text-amber-700 flex items-center justify-center gap-1.5 bg-slate-100 hover:bg-amber-50 px-3 py-1.5 rounded-xl border border-slate-200 hover:border-amber-300 transition-all cursor-pointer shadow-xs"
+                      >
+                        {isCollapsed ? (
+                          <>TAMPILKAN <ChevronDown className="w-3.5 h-3.5 text-amber-600" /></>
+                        ) : (
+                          <>SEMBUNYIKAN <ChevronUp className="w-3.5 h-3.5 text-amber-600" /></>
+                        )}
+                      </button>
+                    </div>
                   </div>
 
                   <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 sm:gap-6 items-start">
